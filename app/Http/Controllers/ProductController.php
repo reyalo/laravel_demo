@@ -19,10 +19,10 @@ class ProductController extends Controller
   {
     // $products = Product::where('active', 1)->get();
     $products = DB::table('products')
-      ->join('brands', 'brands.id', 'products.brand_id')
-      ->join('categories', 'categories.id', 'products.category_id')
-      ->select('products.*', 'categories.category_name', 'brands.brand_name')
-      ->get();
+                    ->join('brands', 'brands.id', 'products.brand_id')
+                    ->join('categories', 'categories.id', 'products.category_id')
+                    ->select('products.*', 'categories.category_name', 'brands.brand_name')
+                    ->get();
     return view('backend.product.manageProduct', ['products' => $products]);
   }
 
@@ -60,12 +60,27 @@ class ProductController extends Controller
   }
   protected function imageUpload($request)
   {
-    $product_image = $request->file('product_image');
-    $img_ext = $product_image->getClientOriginalExtension();
-    $image_name = $request->product_name . '_' . hexdec(uniqid()) . '.' . $img_ext;
-    $directory = 'product_images/';
-    $img_url = $directory . $image_name;
-    $product_image->move($directory, $image_name);
+    // $product_image = $request->file('product_image');
+    // $img_ext = $product_image->getClientOriginalExtension();
+    // $image_name = $request->product_name . '_' . hexdec(uniqid()) . '.' . $img_ext;
+    // $directory = 'product_images/';
+    // $img_url = $directory . $image_name;
+    // $product_image->move($directory, $image_name);
+    // return $img_url;
+
+
+
+    foreach ($request->file('product_image') as $image) {
+
+      $img_ext = $image->getClientOriginalExtension();
+      $name = $request->product_name . '_' . hexdec(uniqid()) . '.' . $img_ext;
+      $directory = 'product_images/';
+      $url = $directory . $name;
+
+      $image->move($directory, $name);
+      $data[] = $url;
+    }
+    $img_url = json_encode($data);
     return $img_url;
   }
   protected function infoUpload($request, $product, $img_url)
@@ -85,17 +100,18 @@ class ProductController extends Controller
   public function store(Request $request)
   {
 
-
+    // return $request->all();
     $this->infoValidate($request);
 
     $product = new Product();
 
     $img_url = $this->imageUpload($request);
 
+
     $this->infoUpload($request, $product, $img_url);
 
     $message = "Product added successfully";
-    return redirect('product/add')->with('message', $message);
+    return redirect('product_add')->with('message', $message);
   }
 
   /**
@@ -155,7 +171,10 @@ class ProductController extends Controller
     $product = Product::find($request->product_id);
 
     if ($request->file('product_image')) {
-      unlink($product->product_image);
+      foreach (json_decode($product->product_image) as $image) {
+        # code...
+        unlink($image);
+      }
       $img_url = $this->imageUpload($request);
     } else {
       $img_url = $product->product_image;
@@ -164,7 +183,7 @@ class ProductController extends Controller
 
     $this->infoUpload($request, $product, $img_url);
 
-    return redirect('product/manage')->with('message', 'Product Updated Successfully');
+    return redirect('product_manage')->with('message', 'Product Updated Successfully');
   }
 
   /**
@@ -178,6 +197,6 @@ class ProductController extends Controller
     $product = Product::find($id);
     unlink($product->product_image);
     $product->delete();
-    return redirect('product/manage')->with('message', 'Product deleted successfully');
+    return redirect('product_manage')->with('message', 'Product deleted successfully');
   }
 }

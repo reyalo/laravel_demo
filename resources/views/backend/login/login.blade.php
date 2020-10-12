@@ -35,19 +35,23 @@ function hideURLbar(){ window.scrollTo(0,1); }
         </div>
         <div class="email-w3l">
           <span class="i1"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
-          <input class="email" type="email" name="email" placeholder="Email" required="">
+          <input class="email @error('email') is-invalid @enderror" type="email" name="email" placeholder="Email" required="">
         </div>
         <div class="pass-w3l">
           <!---728x90--->
           <span class="i2"><i class="fa fa-unlock" aria-hidden="true"></i></span>
-          <input class="pass" type="password" name="password" placeholder="Password" required="">
+          <input class="pass @error('password') is-invalid @enderror" type="password" name="password" placeholder="Password" required="">
         </div>
         <div class="form-check">
           <div class="left">
-            <input type="checkbox" value="Remember me" id="remember" {{ old('remember') ? 'checked' : '' }} >Remember me
+            <input type="checkbox" name="remember" value="Remember me" id="remember" {{ old('remember') ? 'checked' : '' }} >Remember me
           </div>
           <div class="right">
-            <a href="#">Forgot Password?</a>
+
+            @if (Route::has('password.request'))
+            <a href="{{ route('password.request') }}">Forgot Password?</a>
+            @endif
+
           </div>
           <div class="clear"></div>
         </div>

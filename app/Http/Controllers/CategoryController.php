@@ -54,8 +54,8 @@ class CategoryController extends Controller
     $category->active = $request->active;
     $category->save();
     $message = "Category added successfully";
-    return redirect('category/add')->with('message', $message);
-    // return redirect('category/add')->with(['message'=>'Category added successfully']);
+    return redirect('category_add')->with('message', $message);
+    // return redirect('category_add')->with(['message'=>'Category added successfully']);
   }
 
   /**
@@ -112,7 +112,7 @@ class CategoryController extends Controller
     $category->active = $request->active;
     $category->save();
     $message = "Category updated successfully";
-    return redirect('category/manage')->with('message', $message);
+    return redirect('category_manage')->with('message', $message);
   }
 
   /**
@@ -125,6 +125,6 @@ class CategoryController extends Controller
   {
     $category = Category::find($id);
     $category->delete();
-    return redirect('category/manage')->with('message','Category deleted successfully');
+    return redirect('category_manage')->with('message','Category deleted successfully');
   }
 }

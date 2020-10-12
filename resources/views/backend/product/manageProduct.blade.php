@@ -50,7 +50,12 @@ Admin-Manage Product
             <td>{{ $product->product_price}}</td>
             <td>{{ $product->product_quantity}}</td>
             <td>{{ $product->short_description}}</td>
-            <td><img src="{{ asset($product->product_image) }}" height="50" width="50" alt="IMage Here"></td>
+            <td>
+            @foreach (json_decode($product->product_image) as $image)
+            <img src="{{ asset($image) }}" height="40" width="50" alt="IMage Here">
+            @break;
+            @endforeach
+            </td>
             <td>{{ $product->active ? 'Active':'Inactive' }}</td>
             <td>
               @if ($product->active)

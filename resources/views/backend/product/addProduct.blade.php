@@ -58,7 +58,7 @@ Add Product
             </tr>
             <tr>
               <th>Product Image:</th>
-              <td><input type="file" name="product_image" class="form-control"></td>
+              <td><input type="file" name="product_image[]" class="form-control" multiple></td>
             </tr>
             <tr>
               <th>Activation Status:</th>

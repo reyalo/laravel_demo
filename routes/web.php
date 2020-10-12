@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'FrontendController@index')->name('home');
 Route::get('/category/{id}', 'FrontendController@categoryProduct')->name('categoryProduct');
+Route::get('/product/{id}', 'FrontendController@singleProduct')->name('singleProduct');
 Route::get('/brand', 'FrontendController@brandProduct')->name('brandProduct');
 Route::get('/cart', 'CartController@showCart')->name('cart');
 Route::post('/cart/add', 'CartController@addCart')->name('addCart');
@@ -37,41 +38,44 @@ Route::post('signup/save', 'AuthController@saveAnySignup')->name('saveAnySignup'
 Route::post('user/shipping/save', 'AuthController@saveShipping')->name('saveShipping');
 Route::post('user/payment/save', 'AuthController@savePayment')->name('savePayment');
 
-//! Admin Panel
-
-Route::get('/admin', 'AdminController@index')->name('dashboard')->middleware('auth');
-
-Route::get('category/add', 'CategoryController@create')->name('addCategory')->middleware('auth');
-Route::post('category/store', 'CategoryController@store')->name('storeCategory')->middleware('auth');
-Route::get('category/manage', 'CategoryController@index')->name('manageCategory')->middleware('auth');
-Route::get('category/active/{id}', 'CategoryController@active')->name('activeCategory')->middleware('auth');
-Route::get('category/edit/{id}', 'CategoryController@edit')->name('editCategory')->middleware('auth');
-Route::post('category/update', 'CategoryController@update')->name('updateCategory')->middleware('auth');
-Route::get('category/delete/{id}', 'CategoryController@destroy')->name('deleteCategory')->middleware('auth');
-
-Route::get('brand/add', 'BrandController@create')->name('addBrand')->middleware('auth');
-Route::post('brand/store', 'BrandController@store')->name('storeBrand')->middleware('auth');
-Route::get('brand/manage', 'BrandController@index')->name('manageBrand')->middleware('auth');
-Route::get('brand/active/{id}', 'BrandController@active')->name('activeBrand')->middleware('auth');
-Route::get('brand/edit/{id}', 'BrandController@edit')->name('editBrand')->middleware('auth');
-Route::post('brand/update', 'BrandController@update')->name('updateBrand')->middleware('auth');
-Route::get('brand/delete/{id}', 'BrandController@destroy')->name('deleteBrand')->middleware('auth');
-
-Route::get('product/add', 'ProductController@create')->name('addProduct')->middleware('auth');
-Route::post('product/store', 'ProductController@store')->name('storeProduct')->middleware('auth');
-Route::get('product/manage', 'ProductController@index')->name('manageProduct')->middleware('auth');
-Route::get('product/active/{id}', 'ProductController@active')->name('activeProduct')->middleware('auth');
-Route::get('product/edit/{id}', 'ProductController@edit')->name('editProduct')->middleware('auth');
-Route::post('product/update', 'ProductController@update')->name('updateProduct')->middleware('auth');
-Route::get('product/delete/{id}', 'ProductController@destroy')->name('deleteProduct')->middleware('auth');
-
-Route::get('order/manage', 'OrderController@index')->name('manageOrder')->middleware('auth');
-Route::get('order/delete', 'OrderController@destroy')->name('deleteOrder')->middleware('auth');
-Route::get('order/view-order/{id}', 'OrderController@viewOrder')->name('viewOrder')->middleware('auth');
-Route::get('order/view-invoice/{id}', 'OrderController@invoiceOrder')->name('invoiceOrder')->middleware('auth');
-Route::get('order/invoice-download/{id}', 'OrderController@invoicePrint')->name('invoiceDownload')->middleware('auth');
+//! Admin Panel  ->rgrm
 
 
+Route::group(['middleware' => ['auth', 'verified']], function () {
+
+
+  Route::get('/admin', 'AdminController@index')->name('dashboard');
+
+  Route::get('category_add', 'CategoryController@create')->name('addCategory');
+  Route::post('category_store', 'CategoryController@store')->name('storeCategory');
+  Route::get('category_manage', 'CategoryController@index')->name('manageCategory');
+  Route::get('category_active/{id}', 'CategoryController@active')->name('activeCategory');
+  Route::get('category_edit/{id}', 'CategoryController@edit')->name('editCategory');
+  Route::post('category_update', 'CategoryController@update')->name('updateCategory');
+  Route::get('category_delete/{id}', 'CategoryController@destroy')->name('deleteCategory');
+
+  Route::get('brand/add', 'BrandController@create')->name('addBrand');
+  Route::post('brand/store', 'BrandController@store')->name('storeBrand');
+  Route::get('brand/manage', 'BrandController@index')->name('manageBrand');
+  Route::get('brand/active/{id}', 'BrandController@active')->name('activeBrand');
+  Route::get('brand/edit/{id}', 'BrandController@edit')->name('editBrand');
+  Route::post('brand/update', 'BrandController@update')->name('updateBrand');
+  Route::get('brand/delete/{id}', 'BrandController@destroy')->name('deleteBrand');
+
+  Route::get('product_add', 'ProductController@create')->name('addProduct');
+  Route::post('product_store', 'ProductController@store')->name('storeProduct');
+  Route::get('product_manage', 'ProductController@index')->name('manageProduct');
+  Route::get('product_active/{id}', 'ProductController@active')->name('activeProduct');
+  Route::get('product_edit/{id}', 'ProductController@edit')->name('editProduct');
+  Route::post('product_update', 'ProductController@update')->name('updateProduct');
+  Route::get('product_delete/{id}', 'ProductController@destroy')->name('deleteProduct');
+
+  Route::get('order/manage', 'OrderController@index')->name('manageOrder');
+  Route::get('order/delete', 'OrderController@destroy')->name('deleteOrder');
+  Route::get('order/view-order/{id}', 'OrderController@viewOrder')->name('viewOrder');
+  Route::get('order/view-invoice/{id}', 'OrderController@invoiceOrder')->name('invoiceOrder');
+  Route::get('order/invoice-download/{id}', 'OrderController@invoicePrint')->name('invoiceDownload');
+});
 
 
 

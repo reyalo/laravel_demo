@@ -58,9 +58,7 @@ function hideURLbar(){ window.scrollTo(0,1); }
 
     </div>
   </div>
-  <!---728x90--->
-  <footer>&copy; 2020 All rights reserved | Design by <a href="#">Electron</a></footer>
-  <!---728x90--->
+
 </body>
 
 </html>

@@ -16,11 +16,27 @@ class FrontendController extends Controller
   public function index()
   {
     $newProducts = Product::where('active', 1)
-                            ->orderBy('id', 'DESC')
-                            ->take(9)
-                            ->get();
-    return view('frontEnd.home.index',['newProducts'=>$newProducts]);
+      ->orderBy('id', 'DESC')
+      ->take(9)
+      ->get();
+    return view('frontEnd.home.index', ['newProducts' => $newProducts]);
   }
+
+  public function singleProduct($id)
+  {
+
+    $product_info = Product::find($id);
+    // $product_info = DB::table('products')
+    //                   ->where('products.id',$id)
+    //                   ->where('products.active', 1)
+    //                   ->join('categories', 'categories.id', 'products.category_id')
+    //                   ->join('brands', 'brands.id', 'products.brand_id')
+    //                   ->select('products.*', 'categories.category_name', 'brands.brand_name')
+    //                   ->get();
+
+    return view('frontEnd.pages.singleProduct', ['product_info' => $product_info]);
+  }
+
   public function brandProduct()
   {
 
@@ -30,16 +46,16 @@ class FrontendController extends Controller
   {
 
     $category_products = DB::table('products')
-                              ->where('products.active', 1)
-                              ->where('category_id',$id)
-                              ->join('categories','categories.id','products.category_id')
-                              ->join('brands','brands.id','products.brand_id')
-                              ->select('products.*','categories.category_name','brands.brand_name')
-                              ->get();
+      ->where('products.active', 1)
+      ->where('category_id', $id)
+      ->join('categories', 'categories.id', 'products.category_id')
+      ->join('brands', 'brands.id', 'products.brand_id')
+      ->select('products.*', 'categories.category_name', 'brands.brand_name')
+      ->get();
 
     // return $category_products;
 
-    return view('frontEnd.pages.categoryProduct',['category_products'=>$category_products]);
+    return view('frontEnd.pages.categoryProduct', ['category_products' => $category_products]);
   }
 
   /**

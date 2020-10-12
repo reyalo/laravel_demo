@@ -45,16 +45,29 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
           <ul class="nav navbar-nav ">
-            <li class=" active"><a href="{{ route('home') }}" class="hyper "><span>Home</span></a></li>
+            <li class="{{ Request::is('/') ? 'active' : '' }}"><a href="{{ route('home') }}" class="hyper "><span>Home</span></a></li>
             @foreach ($categories as $category)
-            <li>
+            <li class="{{ Request::is('category/'.$category->id) ? 'active' : '' }}">
+
               <a href="{{ route('categoryProduct',['id'=>$category->id]) }}"
-                class="hyper"><span>{{ $category->category_name }}<b class="caret"></b></span></a>
+                class=" hyper"><span>{{ $category->category_name }}<b class="caret"></b></span></a>
             </li>
             @endforeach
           </ul>
         </div>
       </nav>
+      {{-- <script>
+
+      $('#bs-megadropdown-tabs > ul.navbar-nav li').click(function(e) {
+      $('.navbar li.active').removeClass('active');
+      var $this = $(this);
+      if (!$this.hasClass('active')) {
+      $this.addClass('active');
+      }
+
+      });
+
+      </script> --}}
       <div class="cart">
         <a href="{{ route('cart') }}">
           <span class="fa fa-shopping-cart my-cart-icon"><span

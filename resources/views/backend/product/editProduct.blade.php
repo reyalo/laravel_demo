@@ -65,7 +65,7 @@ Edit Product
               <th>Product Image:</th>
               <td class="row">
                 <div class="col-md-8">
-                  <input type="file" name="product_image" class="form-control">
+                  <input type="file" name="product_image[]" class="form-control" multiple>
                 </div>
                 <div class="col-md-4">
                   <img class="" src="{{ asset($product->product_image) }}" height="70" width="100" alt="">

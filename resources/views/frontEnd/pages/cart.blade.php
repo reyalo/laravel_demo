@@ -31,7 +31,13 @@ Cart
           <tr>
             <td>{{ $i++ }}</td>
             <td>{{ $cart_product->name }}</td>
-            <td><img src="{{ asset($cart_product->options->image) }}" height="50" width="70" alt="Image"></td>
+            <td>
+              @foreach (json_decode($cart_product->options->image) as $image)
+              <img src="{{ asset($image) }}" alt="" height="40" width="50">
+              @break;
+              @endforeach
+            </td>
+            {{-- <td><img src="{{ asset($cart_product->options->image) }}" height="50" width="70" alt="Image"></td> --}}
             <td>{{ $cart_product->price }}</td>
             <td>{{ $cart_product->qty }}</td>
             <td>{{ $total+=$cart_product->subtotal }}</td>
