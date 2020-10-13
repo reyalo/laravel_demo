@@ -87,7 +87,7 @@
           </a>
           <div class="mid-1">
             <div class="women">
-              <h6><a href="single.html">{{ $category_product->product_name }}</a></h6>
+              <h6><a href="{{ route('singleProduct',['id'=>$category_product->id]) }}">{{ $category_product->product_name }}</a></h6>
             </div>
             <div class="mid-2">
               {{-- <p><label>{{ $category_product->product_price }}</label><em

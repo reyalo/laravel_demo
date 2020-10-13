@@ -29,7 +29,7 @@
 
               <li data-thumb="{{ asset($image) }}">
               <div class="thumb-image">
-                <img src="{{ asset($image) }}" data-imagezoom="true" class="img-responsive" alt=""> </div>
+                <img src="{{ asset($image) }}" height="50" width="100" data-imagezoom="true" class="img-responsi" alt=""> </div>
               </li>
               @endforeach
             {{-- <li data-thumb="{{ asset('') }}frontEnd/images/se2.jpg">

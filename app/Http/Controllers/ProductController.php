@@ -6,6 +6,7 @@ use App\Brand;
 use App\Category;
 use App\Product;
 use DB;
+use Image;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -19,10 +20,10 @@ class ProductController extends Controller
   {
     // $products = Product::where('active', 1)->get();
     $products = DB::table('products')
-                    ->join('brands', 'brands.id', 'products.brand_id')
-                    ->join('categories', 'categories.id', 'products.category_id')
-                    ->select('products.*', 'categories.category_name', 'brands.brand_name')
-                    ->get();
+      ->join('brands', 'brands.id', 'products.brand_id')
+      ->join('categories', 'categories.id', 'products.category_id')
+      ->select('products.*', 'categories.category_name', 'brands.brand_name')
+      ->get();
     return view('backend.product.manageProduct', ['products' => $products]);
   }
 
@@ -77,7 +78,13 @@ class ProductController extends Controller
       $directory = 'product_images/';
       $url = $directory . $name;
 
-      $image->move($directory, $name);
+      // $image->move($directory, $name);
+      // $img = Image::make($image)->fit(350, 550)->save($url);
+      $img = Image::make($image)->resize(550, 600, function ($constraint) {
+        // $constraint->upsize();
+        // $constraint->aspectRatio();
+      })->save($url);
+
       $data[] = $url;
     }
     $img_url = json_encode($data);
@@ -195,7 +202,11 @@ class ProductController extends Controller
   public function destroy($id)
   {
     $product = Product::find($id);
-    unlink($product->product_image);
+    // unlink($product->product_image);
+    foreach (json_decode($product->product_image) as $image) {
+      # code...
+      unlink($image);
+    }
     $product->delete();
     return redirect('product_manage')->with('message', 'Product deleted successfully');
   }
